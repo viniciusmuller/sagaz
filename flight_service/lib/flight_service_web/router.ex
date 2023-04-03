@@ -7,6 +7,9 @@ defmodule FlightServiceWeb.Router do
 
   scope "/api", FlightServiceWeb do
     pipe_through :api
+
+    resources "/planes", PlaneController, except: [:new, :edit]
+    resources "/flights", FlightController, except: [:new, :edit]
   end
 
   # Enable LiveDashboard in development
