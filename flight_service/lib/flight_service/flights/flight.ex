@@ -11,7 +11,7 @@ defmodule FlightService.Flights.Flight do
     field :arrival_time, :utc_datetime
     field :from, :string # IATA Code
     field :to, :string # IATA Code
-    has_one :plane, Flights.Plane
+    belongs_to :plane, Flights.Plane
 
     timestamps()
   end
@@ -19,8 +19,8 @@ defmodule FlightService.Flights.Flight do
   @doc false
   def changeset(flight, attrs) do
     flight
-    |> cast(attrs, [:from, :to, :depart_time, :arrival_time])
-    |> validate_required([:from, :to, :depart_time, :arrival_time])
+    |> cast(attrs, [:from, :to, :depart_time, :arrival_time, :plane_id])
+    |> validate_required([:from, :to, :depart_time, :arrival_time, :plane_id])
     |> validate_length(:from, is: 3) # IATA Code
     |> validate_length(:to, is: 3) # IATA Code
   end

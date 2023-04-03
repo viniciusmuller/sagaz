@@ -78,6 +78,7 @@ defmodule FlightService.FlightsTest do
 
     test "create_flight/1 with valid data creates a flight" do
       valid_attrs = %{
+        plane_id: "0cc1add8-7dfc-4ea9-9862-0cf4f8a95191",
         depart_time: ~U[2023-04-03 22:24:41Z],
         arrival_time: ~U[2023-04-04 22:24:41Z],
         from: "ABC",

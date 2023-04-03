@@ -6,12 +6,14 @@ defmodule FlightServiceWeb.FlightControllerTest do
   alias FlightService.Flights.Flight
 
   @create_attrs %{
+    plane_id: "0cc1add8-7dfc-4ea9-9862-0cf4f8a95191",
     depart_time: ~U[2023-04-03 22:24:41Z],
     arrival_time: ~U[2023-04-04 22:24:41Z],
     from: "ABC",
     to: "ABD"
   }
   @update_attrs %{
+    plane_id: "0cc1add8-7dfc-4ea9-9862-0cf4f8a95191",
     depart_time: ~U[2023-04-04 22:24:41Z],
     arrival_time: ~U[2023-04-05 22:24:41Z],
     from: "BCD",
@@ -40,6 +42,7 @@ defmodule FlightServiceWeb.FlightControllerTest do
       assert %{
                "id" => ^id,
                "depart_time" => "2023-04-03T22:24:41Z",
+               "arrival_time" => "2023-04-04T22:24:41Z",
                "from" => "ABC",
                "to" => "ABD"
              } = json_response(conn, 200)["data"]

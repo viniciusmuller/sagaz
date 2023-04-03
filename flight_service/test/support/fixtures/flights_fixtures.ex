@@ -29,7 +29,8 @@ defmodule FlightService.FlightsFixtures do
         depart_time: ~U[2023-04-03 22:24:41Z],
         arrival_time: ~U[2023-04-04 22:24:41Z],
         from: "AZZ",
-        to: "NYA"
+        to: "NYA",
+        plane_id: "0cc1add8-7dfc-4ea9-9862-0cf4f8a95191"
       })
       |> FlightService.Flights.create_flight()
 
