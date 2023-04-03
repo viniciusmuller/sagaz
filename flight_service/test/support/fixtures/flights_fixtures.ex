@@ -26,9 +26,10 @@ defmodule FlightService.FlightsFixtures do
     {:ok, flight} =
       attrs
       |> Enum.into(%{
-        depart_time: ~D[2023-04-02],
-        from: "some from",
-        to: "some to"
+        depart_time: ~U[2023-04-03 22:24:41Z],
+        arrival_time: ~U[2023-04-04 22:24:41Z],
+        from: "AZZ",
+        to: "NYA"
       })
       |> FlightService.Flights.create_flight()
 

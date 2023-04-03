@@ -7,6 +7,8 @@ defmodule BookingServiceWeb.Router do
 
   scope "/api", BookingServiceWeb do
     pipe_through :api
+
+    resources "/bookings", BookingController, except: [:new, :edit]
   end
 
   # Enable LiveDashboard in development

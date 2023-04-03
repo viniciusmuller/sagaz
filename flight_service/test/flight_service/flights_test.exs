@@ -77,12 +77,18 @@ defmodule FlightService.FlightsTest do
     end
 
     test "create_flight/1 with valid data creates a flight" do
-      valid_attrs = %{depart_time: ~D[2023-04-02], from: "some from", to: "some to"}
+      valid_attrs = %{
+        depart_time: ~U[2023-04-03 22:24:41Z],
+        arrival_time: ~U[2023-04-04 22:24:41Z],
+        from: "ABC",
+        to: "ABD"
+      }
 
       assert {:ok, %Flight{} = flight} = Flights.create_flight(valid_attrs)
-      assert flight.depart_time == ~D[2023-04-02]
-      assert flight.from == "some from"
-      assert flight.to == "some to"
+      assert flight.depart_time == ~U[2023-04-03 22:24:41Z]
+      assert flight.arrival_time == ~U[2023-04-04 22:24:41Z]
+      assert flight.from == "ABC"
+      assert flight.to == "ABD"
     end
 
     test "create_flight/1 with invalid data returns error changeset" do
@@ -91,12 +97,12 @@ defmodule FlightService.FlightsTest do
 
     test "update_flight/2 with valid data updates the flight" do
       flight = flight_fixture()
-      update_attrs = %{depart_time: ~D[2023-04-03], from: "some updated from", to: "some updated to"}
+      update_attrs = %{depart_time: ~U[2023-04-03 22:24:41Z], from: "BCD", to: "BCE"}
 
       assert {:ok, %Flight{} = flight} = Flights.update_flight(flight, update_attrs)
-      assert flight.depart_time == ~D[2023-04-03]
-      assert flight.from == "some updated from"
-      assert flight.to == "some updated to"
+      assert flight.depart_time == ~U[2023-04-03 22:24:41Z]
+      assert flight.from == "BCD"
+      assert flight.to == "BCE"
     end
 
     test "update_flight/2 with invalid data returns error changeset" do

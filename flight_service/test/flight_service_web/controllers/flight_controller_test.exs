@@ -6,14 +6,16 @@ defmodule FlightServiceWeb.FlightControllerTest do
   alias FlightService.Flights.Flight
 
   @create_attrs %{
-    depart_time: ~D[2023-04-02],
-    from: "some from",
-    to: "some to"
+    depart_time: ~U[2023-04-03 22:24:41Z],
+    arrival_time: ~U[2023-04-04 22:24:41Z],
+    from: "ABC",
+    to: "ABD"
   }
   @update_attrs %{
-    depart_time: ~D[2023-04-03],
-    from: "some updated from",
-    to: "some updated to"
+    depart_time: ~U[2023-04-04 22:24:41Z],
+    arrival_time: ~U[2023-04-05 22:24:41Z],
+    from: "BCD",
+    to: "BCE"
   }
   @invalid_attrs %{depart_time: nil, from: nil, to: nil}
 
@@ -37,9 +39,9 @@ defmodule FlightServiceWeb.FlightControllerTest do
 
       assert %{
                "id" => ^id,
-               "depart_time" => "2023-04-02",
-               "from" => "some from",
-               "to" => "some to"
+               "depart_time" => "2023-04-03T22:24:41Z",
+               "from" => "ABC",
+               "to" => "ABD"
              } = json_response(conn, 200)["data"]
     end
 
@@ -60,9 +62,10 @@ defmodule FlightServiceWeb.FlightControllerTest do
 
       assert %{
                "id" => ^id,
-               "depart_time" => "2023-04-03",
-               "from" => "some updated from",
-               "to" => "some updated to"
+               "depart_time" => "2023-04-04T22:24:41Z",
+               "arrival_time" => "2023-04-05T22:24:41Z",
+               "from" => "BCD",
+               "to" => "BCE"
              } = json_response(conn, 200)["data"]
     end
 
