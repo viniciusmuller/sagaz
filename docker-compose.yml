@@ -1,0 +1,42 @@
+volumes:
+  booking-service-db: {}
+  reservation-service-db: {}
+  flight-service-db: {}
+
+services:
+  booking-service-db:
+    image: postgres
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:postgres}
+      PGDATA: /data/postgres
+    volumes:
+       - booking-service-db:/data/postgres
+    ports:
+      - "5432:5432"
+    restart: unless-stopped
+
+  # TODO: make each service use its own postgres instance
+  # flight-service-db:
+  #   image: postgres
+  #   environment:
+  #     POSTGRES_USER: ${POSTGRES_USER:-postgres}
+  #     POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:postgres}
+  #     PGDATA: /data/postgres
+  #   volumes:
+  #      - flight-service-db:/data/postgres
+  #   ports:
+  #     - "5433:5432"
+  #   restart: unless-stopped
+
+  # reservation-service-db:
+  #   image: postgres
+  #   environment:
+  #     POSTGRES_USER: ${POSTGRES_USER:-postgres}
+  #     POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:postgres}
+  #     PGDATA: /data/postgres
+  #   volumes:
+  #      - reservation-service-db:/data/postgres
+  #   ports:
+  #     - "5434:5432"
+  #   restart: unless-stopped
