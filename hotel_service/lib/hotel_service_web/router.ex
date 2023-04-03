@@ -9,6 +9,7 @@ defmodule HotelServiceWeb.Router do
     pipe_through :api
 
     resources "/hotels", HotelController, except: [:new, :edit]
+    resources "/reservations", ReservationController, except: [:new, :edit]
   end
 
   # Enable LiveDashboard in development

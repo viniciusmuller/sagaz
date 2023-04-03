@@ -7,11 +7,13 @@ defmodule HotelServiceWeb.HotelControllerTest do
 
   @create_attrs %{
     capacity: 42,
+    country_iso: "BR",
     name: "some name",
     stars: 42
   }
   @update_attrs %{
     capacity: 43,
+    country_iso: "US",
     name: "some updated name",
     stars: 43
   }
