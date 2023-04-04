@@ -6,7 +6,7 @@ defmodule HotelService.Hotels.Reservation do
   @foreign_key_type :binary_id
   schema "reservations" do
     field :days, :integer
-    field :hotel, :binary_id
+    belongs_to :hotel, HotelService.Hotels.Hotel
 
     timestamps()
   end
@@ -14,7 +14,7 @@ defmodule HotelService.Hotels.Reservation do
   @doc false
   def changeset(reservation, attrs) do
     reservation
-    |> cast(attrs, [:days])
-    |> validate_required([:days])
+    |> cast(attrs, [:days, :hotel_id])
+    |> validate_required([:days, :hotel_id])
   end
 end

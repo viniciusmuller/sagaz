@@ -26,8 +26,8 @@ defmodule CreateBookingSchema do
   embedded_schema do
     field :hotel_id, :binary_id
     field :days, :integer
-    field :depart_time, :datetime
-    field :arrival_time, :datetime
+    field :depart_time, :utc_datetime
+    field :arrival_time, :utc_datetime
     # IATA code
     field :from, :string
     # IATA code

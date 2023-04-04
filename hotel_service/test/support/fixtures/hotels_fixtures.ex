@@ -28,7 +28,8 @@ defmodule HotelService.HotelsFixtures do
     {:ok, reservation} =
       attrs
       |> Enum.into(%{
-        days: 42
+        days: 42,
+        hotel_id: "e91f9f57-ee82-424a-b341-b3ad8b9a2dd0"
       })
       |> HotelService.Hotels.create_reservation()
 

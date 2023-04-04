@@ -79,7 +79,7 @@ defmodule HotelService.HotelsTest do
     end
 
     test "create_reservation/1 with valid data creates a reservation" do
-      valid_attrs = %{days: 42}
+      valid_attrs = %{days: 42, hotel_id: "f4c2f68d-71d8-4b74-b7df-358e6b0688b8"}
 
       assert {:ok, %Reservation{} = reservation} = Hotels.create_reservation(valid_attrs)
       assert reservation.days == 42

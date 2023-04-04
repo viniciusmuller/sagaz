@@ -6,7 +6,8 @@ defmodule HotelServiceWeb.ReservationControllerTest do
   alias HotelService.Hotels.Reservation
 
   @create_attrs %{
-    days: 42
+    days: 42,
+    hotel_id: "e91f9f57-ee82-424a-b341-b3ad8b9a2dd0"
   }
   @update_attrs %{
     days: 43

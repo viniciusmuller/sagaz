@@ -18,6 +18,7 @@ defmodule HotelServiceWeb.ReservationJSON do
   defp data(%Reservation{} = reservation) do
     %{
       id: reservation.id,
+      hotel_id: reservation.hotel_id,
       days: reservation.days
     }
   end
