@@ -37,6 +37,13 @@ defmodule FlightService.Flights do
   """
   def get_plane!(id), do: Repo.get!(Plane, id)
 
+  def fetch_plane(id) do
+    case Repo.get(Plane, id) do
+      nil -> {:error, :not_found} # TODO: improve plane not found error message
+      plane -> {:ok, plane}
+    end
+  end
+
   @doc """
   Creates a plane.
 

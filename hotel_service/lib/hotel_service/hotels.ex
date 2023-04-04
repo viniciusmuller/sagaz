@@ -37,6 +37,13 @@ defmodule HotelService.Hotels do
   """
   def get_hotel!(id), do: Repo.get!(Hotel, id)
 
+  def fetch_hotel(id) do
+    case Repo.get(Hotel, id) do
+      nil -> {:error, :not_found}
+      hotel -> {:ok, hotel}
+    end
+  end
+
   @doc """
   Creates a hotel.
 

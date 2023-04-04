@@ -2,7 +2,7 @@ defmodule HotelServiceWeb.ReservationController do
   use HotelServiceWeb, :controller
 
   alias HotelService.Hotels
-  alias HotelService.Hotels.Reservation
+  alias HotelService.Hotels.{Hotel, Reservation}
 
   action_fallback HotelServiceWeb.FallbackController
 
@@ -12,7 +12,8 @@ defmodule HotelServiceWeb.ReservationController do
   end
 
   def create(conn, %{"reservation" => reservation_params}) do
-    with {:ok, %Reservation{} = reservation} <- Hotels.reserve_hotel(reservation_params) do
+    with {:ok, %Hotel{}} <- Hotels.fetch_hotel(reservation_params["hotel_id"]),
+         {:ok, %Reservation{} = reservation} <- Hotels.reserve_hotel(reservation_params) do
       conn
       |> put_status(:created)
       |> put_resp_header("location", ~p"/api/reservations/#{reservation}")

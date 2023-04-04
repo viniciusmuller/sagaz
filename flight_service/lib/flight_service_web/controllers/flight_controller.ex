@@ -2,7 +2,7 @@ defmodule FlightServiceWeb.FlightController do
   use FlightServiceWeb, :controller
 
   alias FlightService.Flights
-  alias FlightService.Flights.Flight
+  alias FlightService.Flights.{Flight, Plane}
 
   action_fallback FlightServiceWeb.FallbackController
 
@@ -12,7 +12,8 @@ defmodule FlightServiceWeb.FlightController do
   end
 
   def create(conn, %{"flight" => flight_params}) do
-    with {:ok, %Flight{} = flight} <- Flights.book_flight(flight_params) do
+    with {:ok, %Plane{}} <- Flights.fetch_plane(flight_params["plane_id"]),
+         {:ok, %Flight{} = flight} <- Flights.book_flight(flight_params) do
       conn
       |> put_status(:created)
       |> put_resp_header("location", ~p"/api/flights/#{flight}")
