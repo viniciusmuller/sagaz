@@ -39,6 +39,7 @@ defmodule BookingServiceWeb.BookingController do
     end
   end
 
+  # TODO: Create new saga and cancel reservation/flight when removing booking
   def delete(conn, %{"id" => id}) do
     booking = Bookings.get_booking!(id)
 

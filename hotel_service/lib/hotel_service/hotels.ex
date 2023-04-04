@@ -151,6 +151,21 @@ defmodule HotelService.Hotels do
     |> Repo.insert()
   end
 
+  def reserve_hotel(attrs) do
+    # TODO: validate using changeset before sending to API (both for flight and hotel projects)
+    with :ok <- reserve_hotel_api(attrs) do
+      create_reservation(attrs)
+    end
+  end
+
+  defp reserve_hotel_api(_attrs) do
+    30..50
+    |> Enum.random()
+    |> :timer.sleep()
+
+    :ok
+  end
+
   @doc """
   Updates a reservation.
 
@@ -183,6 +198,21 @@ defmodule HotelService.Hotels do
   """
   def delete_reservation(%Reservation{} = reservation) do
     Repo.delete(reservation)
+  end
+
+  def cancel_reservation(attrs) do
+    # TODO: validate using changeset before sending to API (both for flight and hotel projects)
+    with :ok <- cancel_reservation_api(attrs) do
+      delete_reservation(attrs)
+    end
+  end
+
+  defp cancel_reservation_api(_attrs) do
+    30..50
+    |> Enum.random()
+    |> :timer.sleep()
+
+    :ok
   end
 
   @doc """

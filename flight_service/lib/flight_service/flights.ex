@@ -146,10 +146,23 @@ defmodule FlightService.Flights do
 
   """
   def create_flight(attrs \\ %{}) do
-    # TODO: Check if plane_id is valid
     %Flight{}
     |> Flight.changeset(attrs)
     |> Repo.insert()
+  end
+
+  def book_flight(attrs) do
+    with :ok <- book_flight_api(attrs) do
+      create_flight(attrs)
+    end
+  end
+
+  defp book_flight_api(_attrs) do
+    30..50
+    |> Enum.random()
+    |> :timer.sleep()
+
+    :ok
   end
 
   @doc """
@@ -184,6 +197,20 @@ defmodule FlightService.Flights do
   """
   def delete_flight(%Flight{} = flight) do
     Repo.delete(flight)
+  end
+
+  def unbook_flight(%Flight{} = flight) do
+    with :ok <- unbook_flight_api(flight) do
+      Repo.delete(flight)
+    end
+  end
+
+  defp unbook_flight_api(_attrs) do
+    30..50
+    |> Enum.random()
+    |> :timer.sleep()
+
+    :ok
   end
 
   @doc """

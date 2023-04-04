@@ -12,7 +12,7 @@ defmodule FlightServiceWeb.FlightController do
   end
 
   def create(conn, %{"flight" => flight_params}) do
-    with {:ok, %Flight{} = flight} <- Flights.create_flight(flight_params) do
+    with {:ok, %Flight{} = flight} <- Flights.book_flight(flight_params) do
       conn
       |> put_status(:created)
       |> put_resp_header("location", ~p"/api/flights/#{flight}")
@@ -36,7 +36,7 @@ defmodule FlightServiceWeb.FlightController do
   def delete(conn, %{"id" => id}) do
     flight = Flights.get_flight!(id)
 
-    with {:ok, %Flight{}} <- Flights.delete_flight(flight) do
+    with {:ok, %Flight{}} <- Flights.unbook_flight(flight) do
       send_resp(conn, :no_content, "")
     end
   end

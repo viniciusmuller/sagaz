@@ -12,7 +12,7 @@ defmodule HotelServiceWeb.ReservationController do
   end
 
   def create(conn, %{"reservation" => reservation_params}) do
-    with {:ok, %Reservation{} = reservation} <- Hotels.create_reservation(reservation_params) do
+    with {:ok, %Reservation{} = reservation} <- Hotels.reserve_hotel(reservation_params) do
       conn
       |> put_status(:created)
       |> put_resp_header("location", ~p"/api/reservations/#{reservation}")
@@ -36,7 +36,7 @@ defmodule HotelServiceWeb.ReservationController do
   def delete(conn, %{"id" => id}) do
     reservation = Hotels.get_reservation!(id)
 
-    with {:ok, %Reservation{}} <- Hotels.delete_reservation(reservation) do
+    with {:ok, %Reservation{}} <- Hotels.cancel_reservation(reservation) do
       send_resp(conn, :no_content, "")
     end
   end
