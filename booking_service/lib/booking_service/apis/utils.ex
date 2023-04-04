@@ -20,4 +20,17 @@ defmodule BookingService.APIs.Utils do
       )
     end
   end
+
+  def extract_response(response, status_code) do
+    case response do
+      {:ok, %{status_code: ^status_code, body: %{data: data}}} ->
+        {:ok, data}
+
+      {:ok, response} ->
+        {:error, response}
+
+      err ->
+        err
+    end
+  end
 end

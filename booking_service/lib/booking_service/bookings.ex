@@ -6,7 +6,6 @@ defmodule BookingService.Bookings do
   import Ecto.Query, warn: false
   alias BookingService.Repo
 
-  alias BookingService.APIs.HotelsService
   alias BookingService.Bookings.Booking
 
   @doc """
@@ -54,19 +53,6 @@ defmodule BookingService.Bookings do
     %Booking{}
     |> Booking.changeset(attrs)
     |> Repo.insert()
-  end
-
-  # TODO: Find better name for this function
-  def book(%CreateBookingSchema{} = attrs) do
-    # TODO: use sage
-    case HotelsService.create_reservation(%{hotel_id: attrs.hotel_id, days: attrs.days}) do
-      {:ok, %{status_code: 201, body: %{data: reservation}}} ->
-        # TODO: reserve flight flight_id: nil
-        create_booking(%{reservation_id: reservation.id})
-
-      err ->
-        err
-    end
   end
 
   @doc """

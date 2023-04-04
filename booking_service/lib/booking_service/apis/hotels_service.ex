@@ -8,26 +8,35 @@ defmodule BookingService.APIs.HotelsService do
     errors detail data id name stars capacity days country_iso hotel_id
   )
 
-  def process_request_url(url) do
-    # TODO: use fetch_env!
-    # "http://hotels-service" <> url
-    "http://localhost:4000/api" <> url
+  def list_hotels() do
+    "/hotels" |> get() |> APIs.Utils.extract_response(200)
   end
 
-  def list_hotels() do
-    get("/hotels")
+  def get_reservation(id) do
+    "/reservations/#{id}" |> get() |> APIs.Utils.extract_response(200)
   end
 
   def create_reservation(params) do
-    APIs.Utils.post_json("/reservations", %{reservation: params})
+    "/reservations"
+    |> APIs.Utils.post_json(%{reservation: params})
+    |> APIs.Utils.extract_response(201)
   end
 
-  def delete_reservation(id) do
-    delete("/reservations/#{id}")
+  def cancel_reservation(id) do
+    case delete("/reservations/#{id}") do
+      {:ok, %{status_code: 204, body: nil}} -> :ok
+      _otherwise -> :error
+    end
   end
 
   def list_reservations() do
-    get("/reservations")
+    "/reservations" |> get() |> APIs.Utils.extract_response(200)
+  end
+
+  def process_request_url(url) do
+    # TODO: use fetch_env!
+    # "http://hotels-service" <> url
+    "http://localhost:4001/api" <> url
   end
 
   def process_response_body(body) do

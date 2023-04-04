@@ -146,6 +146,7 @@ defmodule FlightService.Flights do
 
   """
   def create_flight(attrs \\ %{}) do
+    # TODO: Check if plane_id is valid
     %Flight{}
     |> Flight.changeset(attrs)
     |> Repo.insert()

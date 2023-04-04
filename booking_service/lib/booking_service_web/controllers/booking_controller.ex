@@ -2,7 +2,7 @@ defmodule BookingServiceWeb.BookingController do
   use BookingServiceWeb, :controller
 
   alias BookingService.Bookings
-  alias BookingService.Bookings.Booking
+  alias BookingService.Bookings.{Booking, BookTravelSchema}
 
   action_fallback BookingServiceWeb.FallbackController
 
@@ -12,11 +12,17 @@ defmodule BookingServiceWeb.BookingController do
   end
 
   def create(conn, %{"booking" => booking_params}) do
-    with {:ok, %Booking{} = booking} <- Bookings.create_booking(booking_params) do
-      conn
-      |> put_status(:created)
-      |> put_resp_header("location", ~p"/api/bookings/#{booking}")
-      |> render(:show, booking: booking)
+    changeset = BookTravelSchema.changeset(booking_params)
+
+    if changeset.valid? do
+      with {:ok, booking, _effects} <- BookingService.Sagas.book_travel(changeset.changes) do
+        conn
+        |> put_status(:created)
+        |> put_resp_header("location", ~p"/api/bookings/#{booking}")
+        |> render(:show, booking: booking)
+      end
+    else
+      {:error, changeset}
     end
   end
 
