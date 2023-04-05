@@ -83,5 +83,4 @@ COPY --from=builder --chown=nobody:root /app/_build/${MIX_ENV}/rel/flight_servic
 
 USER nobody
 
-CMD ["/app/bin/migrate"]
-ENTRYPOINT ["/app/bin/server"]
+CMD /app/bin/migrate; /app/bin/flight_service eval "FlightService.Setup.seed"; /app/bin/server

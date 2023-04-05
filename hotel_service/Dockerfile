@@ -83,5 +83,4 @@ COPY --from=builder --chown=nobody:root /app/_build/${MIX_ENV}/rel/hotel_service
 
 USER nobody
 
-CMD ["/app/bin/migrate"]
-ENTRYPOINT ["/app/bin/server"]
+CMD /app/bin/migrate; /app/bin/hotel_service eval "HotelService.Setup.seed"; /app/bin/server
