@@ -1,0 +1,241 @@
+{
+  "definitions": {
+    "Plane": {
+      "description": "Represents a specific plane",
+      "example": {
+        "capacity": 15,
+        "name": "F22"
+      },
+      "properties": {
+        "capacity": {
+          "description": "Plane's max capacity",
+          "type": "integer"
+        },
+        "name": {
+          "description": "The name of the plane",
+          "type": "string"
+        },
+        "uuid": {
+          "description": "The ID of the plane",
+          "type": "string"
+        }
+      },
+      "required": [
+        "capacity",
+        "name"
+      ],
+      "title": "Plane",
+      "type": "object"
+    },
+    "PlaneRequest": {
+      "description": "POST body for creating a plane",
+      "properties": {
+        "plane": {
+          "$ref": "#/definitions/Plane",
+          "description": "The plane details"
+        }
+      },
+      "title": "PlaneRequest",
+      "type": "object"
+    },
+    "PlaneResponse": {
+      "description": "Response schema for single plane",
+      "properties": {
+        "data": {
+          "$ref": "#/definitions/Plane",
+          "description": "The plane details"
+        }
+      },
+      "title": "PlaneResponse",
+      "type": "object"
+    },
+    "PlanesResponse": {
+      "description": "Response schema for multiple planes",
+      "properties": {
+        "data": {
+          "description": "The planes details",
+          "items": {
+            "$ref": "#/definitions/Plane"
+          },
+          "type": "array"
+        }
+      },
+      "title": "PlanesResponse",
+      "type": "object"
+    }
+  },
+  "info": {
+    "title": "Flight Service",
+    "version": "1.0"
+  },
+  "paths": {
+    "/api/planes": {
+      "get": {
+        "description": "Lists existing planes",
+        "operationId": "FlightServiceWeb.PlaneController.index",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/PlanesResponse"
+            }
+          }
+        },
+        "summary": "List planes",
+        "tags": [
+          "Plane"
+        ]
+      },
+      "post": {
+        "description": "Creates a new plane",
+        "operationId": "FlightServiceWeb.PlaneController.create",
+        "parameters": [
+          {
+            "description": "The plane details",
+            "in": "body",
+            "name": "plane",
+            "required": false,
+            "schema": {
+              "$ref": "#/definitions/PlaneRequest"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created",
+            "schema": {
+              "$ref": "#/definitions/PlaneResponse"
+            }
+          }
+        },
+        "summary": "Create plane",
+        "tags": [
+          "Plane"
+        ]
+      }
+    },
+    "/api/planes/{id}": {
+      "delete": {
+        "description": "Delete a plane by ID",
+        "operationId": "FlightServiceWeb.PlaneController.delete",
+        "parameters": [
+          {
+            "description": "Plane ID",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer",
+            "x-example": 3
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content - Deleted Successfully"
+          }
+        },
+        "summary": "Delete plane",
+        "tags": [
+          "Plane"
+        ]
+      },
+      "get": {
+        "description": "Show a plane by ID",
+        "operationId": "FlightServiceWeb.PlaneController.show",
+        "parameters": [
+          {
+            "description": "Plane ID",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "string",
+            "x-example": "f3cd3f9b-9019-471b-b2e9-02c475fe2bbd"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/PlaneResponse"
+            }
+          }
+        },
+        "summary": "Show plane",
+        "tags": [
+          "Plane"
+        ]
+      },
+      "patch": {
+        "description": "Update all attributes of a plane",
+        "operationId": "FlightServiceWeb.PlaneController.update",
+        "parameters": [
+          {
+            "description": "Plane ID",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "string",
+            "x-example": "f3cd3f9b-9019-471b-b2e9-02c475fe2bbd"
+          },
+          {
+            "description": "The plane details",
+            "in": "body",
+            "name": "plane",
+            "required": false,
+            "schema": {
+              "$ref": "#/definitions/PlaneRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Updated",
+            "schema": {
+              "$ref": "#/definitions/PlaneResponse"
+            }
+          }
+        },
+        "summary": "Update plane",
+        "tags": [
+          "Plane"
+        ]
+      },
+      "put": {
+        "description": "Update all attributes of a plane",
+        "operationId": "FlightServiceWeb.PlaneController.update",
+        "parameters": [
+          {
+            "description": "Plane ID",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "string",
+            "x-example": "f3cd3f9b-9019-471b-b2e9-02c475fe2bbd"
+          },
+          {
+            "description": "The plane details",
+            "in": "body",
+            "name": "plane",
+            "required": false,
+            "schema": {
+              "$ref": "#/definitions/PlaneRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Updated",
+            "schema": {
+              "$ref": "#/definitions/PlaneResponse"
+            }
+          }
+        },
+        "summary": "Update plane",
+        "tags": [
+          "Plane"
+        ]
+      }
+    }
+  },
+  "swagger": "2.0"
+}
