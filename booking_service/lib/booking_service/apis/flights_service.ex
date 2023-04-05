@@ -39,9 +39,8 @@ defmodule BookingService.APIs.FlightsService do
   end
 
   def process_request_url(url) do
-    # TODO: use fetch_env!
-    # "http://flights-service" <> url
-    "http://localhost:4002/api" <> url
+    host = System.fetch_env!("HOTEL_SERVICE_HOST")
+    "#{host}/api#{url}"
   end
 
   def process_response_body(body) do

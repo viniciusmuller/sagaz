@@ -1,42 +1,76 @@
 volumes:
   booking-service-db: {}
-  reservation-service-db: {}
+  hotel-service-db: {}
   flight-service-db: {}
 
 services:
   booking-service-db:
     image: postgres
     environment:
-      POSTGRES_USER: ${POSTGRES_USER:-postgres}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:postgres}
-      PGDATA: /data/postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_DB=booking_service
+      - POSTGRES_PASSWORD=postgres
+      - PGDATA=/data/postgres
     volumes:
        - booking-service-db:/data/postgres
     ports:
       - "5432:5432"
     restart: unless-stopped
 
-  # TODO: make each service use its own postgres instance
-  # flight-service-db:
-  #   image: postgres
-  #   environment:
-  #     POSTGRES_USER: ${POSTGRES_USER:-postgres}
-  #     POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:postgres}
-  #     PGDATA: /data/postgres
-  #   volumes:
-  #      - flight-service-db:/data/postgres
-  #   ports:
-  #     - "5433:5432"
-  #   restart: unless-stopped
+  flight-service-db:
+    image: postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_DB: flight_service
+      POSTGRES_PASSWORD: postgres
+      PGDATA: /data/postgres
+    volumes:
+       - flight-service-db:/data/postgres
+    ports:
+      - "5433:5432"
+    restart: unless-stopped
 
-  # reservation-service-db:
-  #   image: postgres
-  #   environment:
-  #     POSTGRES_USER: ${POSTGRES_USER:-postgres}
-  #     POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:postgres}
-  #     PGDATA: /data/postgres
-  #   volumes:
-  #      - reservation-service-db:/data/postgres
-  #   ports:
-  #     - "5434:5432"
-  #   restart: unless-stopped
+  hotel-service-db:
+    image: postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: hotel_service
+      PGDATA: /data/postgres
+    volumes:
+       - hotel-service-db:/data/postgres
+    ports:
+      - "5434:5432"
+    restart: unless-stopped
+
+  booking-service:
+    build: ./booking_service
+    ports: 
+      - 4000:4000
+    depends_on:
+      - booking-service-db
+    environment:
+      - HOTEL_SERVICE_HOST=http://hotel-service:4000
+      - FLIGHT_SERVICE_HOST=http://flight-service:4000
+      - DATABASE_URL=ecto://postgres:postgres@booking-service-db/booking_service
+      - SECRET_KEY_BASE=aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+
+  hotel-service:
+    build: ./hotel_service
+    ports: 
+      - 4001:4000
+    depends_on:
+      - hotel-service-db
+    environment:
+      - DATABASE_URL=ecto://postgres:postgres@hotel-service-db/hotel_service
+      - SECRET_KEY_BASE=aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+
+  flight-service:
+    ports: 
+      - 4002:4000
+    build: ./flight_service
+    depends_on:
+      - flight-service-db
+    environment:
+      - DATABASE_URL=ecto://postgres:postgres@flight-service-db/flight_service
+      - SECRET_KEY_BASE=aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
