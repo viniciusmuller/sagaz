@@ -9,17 +9,17 @@ defmodule BookingService.APIs.HotelsService do
   )
 
   def list_hotels() do
-    "/hotels" |> get() |> APIs.Utils.extract_response(200)
+    "/hotels" |> get() |> APIs.Utils.extract_response()
   end
 
   def get_reservation(id) do
-    "/reservations/#{id}" |> get() |> APIs.Utils.extract_response(200)
+    "/reservations/#{id}" |> get() |> APIs.Utils.extract_response()
   end
 
   def create_reservation(params) do
     "/reservations"
     |> APIs.Utils.post_json(%{reservation: params})
-    |> APIs.Utils.extract_response(201)
+    |> APIs.Utils.extract_response()
   end
 
   def cancel_reservation(id) do
@@ -30,7 +30,7 @@ defmodule BookingService.APIs.HotelsService do
   end
 
   def list_reservations() do
-    "/reservations" |> get() |> APIs.Utils.extract_response(200)
+    "/reservations" |> get() |> APIs.Utils.extract_response()
   end
 
   def process_request_url(url) do

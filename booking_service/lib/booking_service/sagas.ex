@@ -12,7 +12,7 @@ defmodule BookingService.Sagas do
     |> run(:flight, &book_flight/2, &unbook_flight/3)
     |> run(:reservation, &create_reservation/2, &cancel_reservation/3)
     |> run(:booking, &create_booking/2)
-    |> transaction(BookingService.Repo, attrs)
+    |> execute(attrs)
   end
 
   defp create_reservation(_effects_so_far, %{hotel_id: hotel_id, days: days} = attrs) do

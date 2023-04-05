@@ -22,7 +22,7 @@ config :hotel_service, HotelServiceWeb.Endpoint,
   http: [ip: {127, 0, 0, 1}, port: 4001],
   check_origin: false,
   code_reloader: true,
-  debug_errors: true,
+  debug_errors: false,
   secret_key_base: "mMt5TKsAcSkgA0BewDJxJxmAH/Ke3q+yhajgRu9Jgj23g4Nr+AOHrftT+dZGK2OR",
   watchers: []
 

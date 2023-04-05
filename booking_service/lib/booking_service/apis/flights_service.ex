@@ -10,21 +10,25 @@ defmodule BookingService.APIs.FlightsService do
   )
 
   def get_flight(id) do
-    "/flights/#{id}" |> get() |> APIs.Utils.extract_response(200)
+    "/flights/#{id}" |> get() |> APIs.Utils.extract_response()
+  end
+
+  def get_plane(id) do
+    "/planes/#{id}" |> get() |> APIs.Utils.extract_response()
   end
 
   def list_planes() do
-    "/planes" |> get() |> APIs.Utils.extract_response(200)
+    "/planes" |> get() |> APIs.Utils.extract_response()
   end
 
   def list_booked_flights() do
-    "/flights" |> get() |> APIs.Utils.extract_response(200)
+    "/flights" |> get() |> APIs.Utils.extract_response()
   end
 
   def book_flight(params) do
     "/flights"
     |> APIs.Utils.post_json(%{flight: params})
-    |> APIs.Utils.extract_response(201)
+    |> APIs.Utils.extract_response()
   end
 
   def unbook_flight(id) do
