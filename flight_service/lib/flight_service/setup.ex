@@ -1,5 +1,5 @@
 defmodule FlightService.Setup do
-  alias FlightService.Flights.Plane
+  alias FlightService.Flights
 
   def seed do
     Ecto.Migrator.with_repo(FlightService.Repo, fn _ ->
@@ -8,23 +8,23 @@ defmodule FlightService.Setup do
   end
 
   defp do_seed do
-    unless FlightService.Repo.get_by(Plane, name: "Boieng 767") do
-      FlightService.Repo.insert!(%Plane{
-        name: "Boeing 767",
+    unless FlightService.Repo.get_by(Flights.Plane, name: n = "Boeing 767") do
+      FlightService.Repo.insert!(%Flights.Plane{
+        name: n,
         capacity: 300
       })
     end
 
-    unless FlightService.Repo.get_by(Plane, name: "Boieng 787") do
-      FlightService.Repo.insert!(%Plane{
-        name: "Boeing 787",
+    unless FlightService.Repo.get_by(Flights.Plane, name: n = "Boeing 787") do
+      FlightService.Repo.insert!(%Flights.Plane{
+        name: n,
         capacity: 200
       })
     end
 
-    unless FlightService.Repo.get_by(Plane, name: "Boieng 737") do
-      FlightService.Repo.insert!(%Plane{
-        name: "Boeing 737",
+    unless FlightService.Repo.get_by(Flights.Plane, name: n = "Boeing 737") do
+      FlightService.Repo.insert!(%Flights.Plane{
+        name: n,
         capacity: 500
       })
     end
