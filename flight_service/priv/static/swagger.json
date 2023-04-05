@@ -1,5 +1,82 @@
 {
   "definitions": {
+    "Flight": {
+      "description": "Represents a booked flight",
+      "example": {
+        "arrival_time": "2023-04-05T23:00:00Z",
+        "depart_time": "2023-04-05T21:00:00Z",
+        "from": "POA",
+        "plane_id": "41c2fd5e-d77a-4bba-bdd6-1ab88f308a0e",
+        "to": "GRU"
+      },
+      "properties": {
+        "arrival_time": {
+          "description": "Flight expected arrival time",
+          "type": "utc_datetime"
+        },
+        "depart_time": {
+          "description": "Flight depart time",
+          "type": "utc_datetime"
+        },
+        "from": {
+          "description": "Source airport IATA code",
+          "type": "string"
+        },
+        "plane_id": {
+          "description": "Flight plane's id",
+          "type": "string"
+        },
+        "to": {
+          "description": "Destination airport IATA code",
+          "type": "string"
+        }
+      },
+      "required": [
+        "plane_id",
+        "to",
+        "from",
+        "arrival_time",
+        "depart_time"
+      ],
+      "title": "Flight",
+      "type": "object"
+    },
+    "FlightRequest": {
+      "description": "POST body for creating a flight",
+      "properties": {
+        "plane": {
+          "$ref": "#/definitions/Flight",
+          "description": "The flight details"
+        }
+      },
+      "title": "FlightRequest",
+      "type": "object"
+    },
+    "FlightResponse": {
+      "description": "Response schema for single flight",
+      "properties": {
+        "data": {
+          "$ref": "#/definitions/Flight",
+          "description": "The flight details"
+        }
+      },
+      "title": "FlightResponse",
+      "type": "object"
+    },
+    "FlightsResponse": {
+      "description": "Response schema for multiple flights",
+      "properties": {
+        "data": {
+          "description": "The flights details",
+          "items": {
+            "$ref": "#/definitions/Flight"
+          },
+          "type": "array"
+        }
+      },
+      "title": "FlightsResponse",
+      "type": "object"
+    },
     "Plane": {
       "description": "Represents a specific plane",
       "example": {
@@ -69,6 +146,172 @@
     "version": "1.0"
   },
   "paths": {
+    "/api/flights": {
+      "get": {
+        "description": "Lists existing flights",
+        "operationId": "FlightServiceWeb.FlightController.index",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/FlightsResponse"
+            }
+          }
+        },
+        "summary": "List flights",
+        "tags": [
+          "Flight"
+        ]
+      },
+      "post": {
+        "description": "Books a flight",
+        "operationId": "FlightServiceWeb.FlightController.create",
+        "parameters": [
+          {
+            "description": "The flight details",
+            "in": "body",
+            "name": "plane",
+            "required": false,
+            "schema": {
+              "$ref": "#/definitions/FlightRequest"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created",
+            "schema": {
+              "$ref": "#/definitions/FlightResponse"
+            }
+          }
+        },
+        "summary": "Book flight",
+        "tags": [
+          "Flight"
+        ]
+      }
+    },
+    "/api/flights/{id}": {
+      "delete": {
+        "description": "Unbook a flight by ID",
+        "operationId": "FlightServiceWeb.FlightController.delete",
+        "parameters": [
+          {
+            "description": "Flight ID",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content - Unbooked Successfully"
+          }
+        },
+        "summary": "Unbook Flight",
+        "tags": [
+          "Flight"
+        ]
+      },
+      "get": {
+        "description": "Show a flight by ID",
+        "operationId": "FlightServiceWeb.FlightController.show",
+        "parameters": [
+          {
+            "description": "Flight ID",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "string",
+            "x-example": "f3cd3f9b-9019-471b-b2e9-02c475fe2bbd"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/FlightResponse"
+            }
+          }
+        },
+        "summary": "Show flight",
+        "tags": [
+          "Flight"
+        ]
+      },
+      "patch": {
+        "description": "Update all attributes of a flight",
+        "operationId": "FlightServiceWeb.FlightController.update",
+        "parameters": [
+          {
+            "description": "Flight ID",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "string",
+            "x-example": "f3cd3f9b-9019-471b-b2e9-02c475fe2bbd"
+          },
+          {
+            "description": "The flight details",
+            "in": "body",
+            "name": "plane",
+            "required": false,
+            "schema": {
+              "$ref": "#/definitions/FlightRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Updated",
+            "schema": {
+              "$ref": "#/definitions/FlightResponse"
+            }
+          }
+        },
+        "summary": "Update flight",
+        "tags": [
+          "Flight"
+        ]
+      },
+      "put": {
+        "description": "Update all attributes of a flight",
+        "operationId": "FlightServiceWeb.FlightController.update",
+        "parameters": [
+          {
+            "description": "Flight ID",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "string",
+            "x-example": "f3cd3f9b-9019-471b-b2e9-02c475fe2bbd"
+          },
+          {
+            "description": "The flight details",
+            "in": "body",
+            "name": "plane",
+            "required": false,
+            "schema": {
+              "$ref": "#/definitions/FlightRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Updated",
+            "schema": {
+              "$ref": "#/definitions/FlightResponse"
+            }
+          }
+        },
+        "summary": "Update flight",
+        "tags": [
+          "Flight"
+        ]
+      }
+    },
     "/api/planes": {
       "get": {
         "description": "Lists existing planes",
@@ -125,8 +368,7 @@
             "in": "path",
             "name": "id",
             "required": true,
-            "type": "integer",
-            "x-example": 3
+            "type": "string"
           }
         ],
         "responses": {

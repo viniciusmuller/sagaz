@@ -122,7 +122,7 @@ defmodule FlightServiceWeb.PlaneController do
     summary("Delete plane")
     description("Delete a plane by ID")
 
-    parameter(:id, :path, :integer, "Plane ID", required: true, example: 3)
+    parameter(:id, :path, :string, "Plane ID", required: true)
     response(204, "No Content - Deleted Successfully")
   end
 end
