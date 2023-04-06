@@ -3,6 +3,7 @@ defmodule HotelServiceWeb.Router do
 
   pipeline :api do
     plug :accepts, ["json"]
+    plug OpenApiSpex.Plug.PutApiSpec, module: HotelServiceWeb.ApiSpec
   end
 
   scope "/api", HotelServiceWeb do
@@ -10,6 +11,13 @@ defmodule HotelServiceWeb.Router do
 
     resources "/hotels", HotelController, except: [:new, :edit]
     resources "/reservations", ReservationController, except: [:new, :edit]
+  end
+
+  scope "/api" do
+    pipe_through :api
+
+    get "/openapi", OpenApiSpex.Plug.RenderSpec, []
+    get "/swagger", OpenApiSpex.Plug.SwaggerUI, path: "/api/openapi"
   end
 
   # Enable LiveDashboard in development

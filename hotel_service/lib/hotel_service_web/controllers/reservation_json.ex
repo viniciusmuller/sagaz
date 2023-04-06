@@ -19,7 +19,9 @@ defmodule HotelServiceWeb.ReservationJSON do
     %{
       id: reservation.id,
       hotel_id: reservation.hotel_id,
-      days: reservation.days
+      days: reservation.days,
+      inserted_at: reservation.inserted_at,
+      updated_at: reservation.updated_at
     }
   end
 end

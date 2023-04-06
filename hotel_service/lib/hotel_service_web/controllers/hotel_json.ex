@@ -21,7 +21,9 @@ defmodule HotelServiceWeb.HotelJSON do
       name: hotel.name,
       country_iso: hotel.country_iso,
       stars: hotel.stars,
-      capacity: hotel.capacity
+      capacity: hotel.capacity,
+      inserted_at: hotel.inserted_at,
+      updated_at: hotel.updated_at
     }
   end
 end
