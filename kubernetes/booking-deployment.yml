@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: booking-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: booking
+  template:
+    metadata:
+      labels:
+        app: booking
+    spec:
+      containers:
+        - name: booking
+          image: booking-service:local
+          ports:
+            - containerPort: 4000
+          args: ["foreground"]
+          env:
+            - name: SECRET_KEY_BASE
+              value: "AbVEubXFXNTmxhk1vEglciRfUG6L5VwBRaszMP1Gt1PpdfzJ4CsPCioG2ZGOe7fU"
+            - name: DATABASE_URL
+              value: "ecto://postgres:postgres@hotel-service-db/hotel_service"
