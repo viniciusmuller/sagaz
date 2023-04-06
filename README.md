@@ -55,7 +55,20 @@ The following ports are exposed by docker-compose:
 
 # Deploying to Kubernetes
 
-> In progress
+Inside the **k8s** directory, there are some kubernetes objects used to create
+and configure a service's database, a service's deployment and create a service
+for it.
+
+For Example:
+
+```sh
+# Creates and configure a postgres instance for one of the services using a
+# local volume (useful for testing in minikube, for example)
+kubectl apply -f k8s/booking-db-deployment.yml
+```
+
+Note that the provided kubernetes setup does not handle container image
+uploading, it's up to the user to add the images.
 
 # Developing
 
@@ -69,6 +82,3 @@ nix develop
 
 Now being inside the development environment, you can manually run and develop
 your services independently.
-
-# TODO: 
-- [ ] Add Kubernetes deploy scripts
