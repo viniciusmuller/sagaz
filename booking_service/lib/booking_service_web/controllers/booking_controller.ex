@@ -51,6 +51,8 @@ defmodule BookingServiceWeb.BookingController do
     end
   end
 
+  tags(["Booking"])
+
   operation(:index,
     summary: "List bookings",
     responses: [
