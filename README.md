@@ -71,7 +71,4 @@ Now being inside the development environment, you can manually run and develop
 your services independently.
 
 # TODO: 
-- [x] Add Swagger to APIs
-- [x] Implement SAGA for unbooking travel
-- [ ] Improve hotel/plane not found error messages
 - [ ] Add Kubernetes deploy scripts
