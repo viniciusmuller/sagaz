@@ -8,7 +8,7 @@ defmodule FlightServiceWeb.ApiSchemas do
       description: "Represents a specific plane",
       type: :object,
       properties: %{
-        id: %Schema{type: :integer, description: "Plane ID"},
+        id: %Schema{type: :string, description: "Plane ID"},
         name: %Schema{type: :string, description: "Plane name"},
         capacity: %Schema{type: :integer, description: "The plane's capacity"},
         inserted_at: %Schema{
@@ -65,7 +65,7 @@ defmodule FlightServiceWeb.ApiSchemas do
       description: "Represents a specific plane",
       type: :object,
       properties: %{
-        id: %Schema{type: :integer, description: "Plane ID"},
+        id: %Schema{type: :string, description: "Flight ID"},
         depart_time: %Schema{type: :utc_datetime, description: "Plane depart time"},
         arrival_time: %Schema{type: :utc_datetime, description: "Expected plane arrival time"},
         plane_id: %Schema{type: :string, description: "Plane ID"},
