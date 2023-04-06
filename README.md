@@ -15,9 +15,25 @@ Orchestrator (Booking Service).
 
 ## Running it locally
 
+### Starting the Services
+
 ```sh
 docker-compose up
 ```
+
+### Testing the Services
+
+You can then check the services and interact with their APIs either by accessing
+their [Swagger](https://swagger.io/) page (**/api/swagger** endpoint) or using a
+custom HTTP client, such as [Postman](https://www.postman.com/).
+
+The following ports are exposed by docker-compose:
+- `8080`: API Gateway
+- `4000`: Booking Service
+- `4001`: Hotel Service
+- `4002`: Flight Service
+
+![Hotel Service Swagger UI Page](./.github/img/hotel-service-swagger-ui.png)
 
 ## Developing
 
@@ -33,4 +49,6 @@ Now being inside the development environment, you can manually run and develop
 your services independently.
 
 # TODO: 
-- [ ] Add Swagger to APIs
+- [x] Add Swagger to APIs
+- [ ] Implement SAGA for unbooking travel
+- [ ] Improve hotel/plane not found error messages
