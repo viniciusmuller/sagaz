@@ -56,7 +56,7 @@ The following ports are exposed by docker-compose:
 # Deploying to Kubernetes
 
 Inside the **k8s** directory, there are some kubernetes objects used to create
-and configure a service's database, a its deployment and create a kubernetes
+and configure a service's database, its deployment and create a kubernetes
 service for it.
 
 For Example:
