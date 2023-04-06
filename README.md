@@ -1,7 +1,8 @@
 # Sagaz
 
 Sagaz is a microservice travel booking application that demonstrates distributed
-transactions using the Orchestrator SAGA pattern.
+transactions using the Orchestrator [SAGA
+pattern](https://learn.microsoft.com/en-us/azure/architecture/reference-architectures/saga/saga).
 
 When a user tries to book a travel through the **Booking Service** it will
 first book the flights using the **Flight Service** and then book their hotel,
@@ -9,29 +10,36 @@ via the **Hotel Service**. If the flights were already booked but the hotel
 reservation fails for some reason, they will be unbooked by the SAGA
 Orchestrator (Booking Service).
 
-## Table of Contents
+This project is made mainly to showcase and serve as base for the following:
+
+- Distributed transactions using SAGA.
+- OpenAPI and Swagger using [open_api_spex](https://github.com/open-api-spex/open_api_spex)
+- Communication between microservices using custom HTTP Clients
+- Idempotent seeds
+
+# Table of Contents
 
 - [Sagaz](#sagaz)
 - [Architecture Diagram](#architecture-diagram)
 - [Running it locally](#running-it-locally)
 	+ [Starting the Services](#starting-the-services)
-	+ [Testing the Services](#testing-the-services)
+	+ [Interacting the Services](#interacting-with-the-services)
 - [Deploying to Kubernetes](#deploying-to-kubernetes)
 - [Developing](#developing)
 
-## Architecture Diagram
+# Architecture Diagram
 
 ![Sagaz Architecture Diagram](./.github/img/sagaz-architecture.png)
 
-## Running it locally
+# Running it locally
 
-### Starting the Services
+## Starting the Services
 
 ```sh
 docker-compose up
 ```
 
-### Testing the Services
+## Interacting with the Services
 
 You can then check the services and interact with their APIs either by accessing
 their [Swagger](https://swagger.io/) page (**/api/swagger** endpoint) or using a
@@ -45,11 +53,11 @@ The following ports are exposed by docker-compose:
 
 ![Hotel Service Swagger UI Page](./.github/img/hotel-service-swagger-ui.png)
 
-## Deploying to Kubernetes
+# Deploying to Kubernetes
 
 > In progress
 
-## Developing
+# Developing
 
 Currently the required development dependencies (Elixir, etc...) are installed
 via [Nix](https://nixos.org/). In order to access the development environment,
