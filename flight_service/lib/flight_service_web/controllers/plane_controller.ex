@@ -73,7 +73,7 @@ defmodule FlightServiceWeb.PlaneController do
       ]
     ],
     responses: [
-      ok: {"User", "application/json", ApiSchemas.PlaneResponse}
+      ok: {"Plane", "application/json", ApiSchemas.PlaneResponse}
     ]
   )
 

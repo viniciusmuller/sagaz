@@ -18,7 +18,6 @@ defmodule FlightServiceWeb.ApiSchemas do
         },
         updated_at: %Schema{type: :string, description: "Update timestamp", format: :"date-time"}
       },
-      required: [:name, :capacity],
       example: %{
         "id" => "a83d261f-d1e1-47cc-b7c2-caa4ca07bc07",
         "name" => "F22",
@@ -79,7 +78,6 @@ defmodule FlightServiceWeb.ApiSchemas do
         },
         updated_at: %Schema{type: :string, description: "Update timestamp", format: :"date-time"}
       },
-      required: [:depart_time, :arrival_time, :plane_id, :from, :to],
       example: %{
         "id" => "a83d261f-d1e1-47cc-b7c2-caa4ca07bc07",
         "plane_id" => "84d3f082-b4e7-4de6-9fa9-4568d6690050",
