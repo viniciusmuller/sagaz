@@ -1,9 +1,11 @@
 defmodule FlightServiceWeb.PlaneController do
   use FlightServiceWeb, :controller
-  use PhoenixSwagger
+  use OpenApiSpex.ControllerSpecs
+  alias OpenApiSpex.Schema
 
   alias FlightService.Flights
   alias FlightService.Flights.Plane
+  alias FlightServiceWeb.ApiSchemas
 
   action_fallback FlightServiceWeb.FallbackController
 
@@ -42,87 +44,57 @@ defmodule FlightServiceWeb.PlaneController do
     end
   end
 
-  def swagger_definitions do
-    %{
-      Plane:
-        swagger_schema do
-          title("Plane")
-          description("Represents a specific plane")
+  tags(["Planes"])
 
-          properties do
-            uuid(:string, "The ID of the plane")
-            name(:string, "The name of the plane", required: true)
-            capacity(:integer, "Plane's max capacity", required: true)
-          end
+  operation(:index,
+    summary: "List planes",
+    responses: [
+      ok: {"Plane", "application/json", %Schema{type: :array, items: ApiSchemas.PlaneResponse}}
+    ]
+  )
 
-          example(%{name: "F22", capacity: 15})
-        end,
-      PlaneRequest:
-        swagger_schema do
-          title("PlaneRequest")
-          description("POST body for creating a plane")
-          property(:plane, Schema.ref(:Plane), "The plane details")
-        end,
-      PlaneResponse:
-        swagger_schema do
-          title("PlaneResponse")
-          description("Response schema for single plane")
-          property(:data, Schema.ref(:Plane), "The plane details")
-        end,
-      PlanesResponse:
-        swagger_schema do
-          title("PlanesResponse")
-          description("Response schema for multiple planes")
-          property(:data, Schema.array(:Plane), "The planes details")
-        end
-    }
-  end
+  operation(:create,
+    summary: "Create plane",
+    request_body:
+      {"The plane attributes", "application/json", ApiSchemas.PlaneRequest, required: true},
+    responses: [
+      created: {"Plane", "application/json", ApiSchemas.PlaneResponse}
+    ]
+  )
 
-  swagger_path(:index) do
-    summary("List planes")
-    description("Lists existing planes")
+  operation(:show,
+    summary: "Show plane",
+    parameters: [
+      id: [
+        in: :path,
+        type: :string,
+        description: "Plane ID",
+        required: true
+      ]
+    ],
+    responses: [
+      ok: {"User", "application/json", ApiSchemas.PlaneResponse}
+    ]
+  )
 
-    response(200, "OK", Schema.ref(:PlanesResponse))
-  end
+  operation(:update,
+    summary: "Update a plane",
+    parameters: [
+      id: [in: :path, description: "Plane ID", type: :string]
+    ],
+    request_body: {"Plane params", "application/json", ApiSchemas.PlaneRequest, required: true},
+    responses: [
+      ok: {"Plane response", "application/json", ApiSchemas.PlaneResponse}
+    ]
+  )
 
-  swagger_path(:create) do
-    summary("Create plane")
-    description("Creates a new plane")
-
-    parameter(:plane, :body, Schema.ref(:PlaneRequest), "The plane details")
-    response(201, "Created", Schema.ref(:PlaneResponse))
-  end
-
-  swagger_path(:show) do
-    summary("Show plane")
-    description("Show a plane by ID")
-
-    parameter(:id, :path, :string, "Plane ID",
-      required: true,
-      example: "f3cd3f9b-9019-471b-b2e9-02c475fe2bbd"
-    )
-
-    response(200, "OK", Schema.ref(:PlaneResponse))
-  end
-
-  swagger_path(:update) do
-    summary("Update plane")
-    description("Update all attributes of a plane")
-
-    parameter(:id, :path, :string, "Plane ID",
-      required: true,
-      example: "f3cd3f9b-9019-471b-b2e9-02c475fe2bbd"
-    )
-
-    parameter(:plane, :body, Schema.ref(:PlaneRequest), "The plane details")
-    response(200, "Updated", Schema.ref(:PlaneResponse))
-  end
-
-  swagger_path(:delete) do
-    summary("Delete plane")
-    description("Delete a plane by ID")
-
-    parameter(:id, :path, :string, "Plane ID", required: true)
-    response(204, "No Content - Deleted Successfully")
-  end
+  operation(:delete,
+    summary: "Deletes a plane",
+    parameters: [
+      id: [in: :path, description: "Plane ID", type: :string]
+    ],
+    responses: [
+      no_content: "Succesfully deleted"
+    ]
+  )
 end

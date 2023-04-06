@@ -3,6 +3,7 @@ defmodule FlightServiceWeb.Router do
 
   pipeline :api do
     plug :accepts, ["json"]
+    plug OpenApiSpex.Plug.PutApiSpec, module: FlightServiceWeb.ApiSpec
   end
 
   scope "/api", FlightServiceWeb do
@@ -12,10 +13,11 @@ defmodule FlightServiceWeb.Router do
     resources "/flights", FlightController, except: [:new, :edit]
   end
 
-  scope "/api/swagger" do
-    forward "/", PhoenixSwagger.Plug.SwaggerUI,
-      otp_app: :flight_service,
-      swagger_file: "swagger.json"
+  scope "/api" do
+    pipe_through :api
+
+    get "/openapi", OpenApiSpex.Plug.RenderSpec, []
+    get "/swagger", OpenApiSpex.Plug.SwaggerUI, path: "/api/openapi"
   end
 
   # Enable LiveDashboard in development
@@ -32,14 +34,5 @@ defmodule FlightServiceWeb.Router do
 
       live_dashboard "/dashboard", metrics: FlightServiceWeb.Telemetry
     end
-  end
-
-  def swagger_info do
-    %{
-      info: %{
-        version: "1.0",
-        title: "Flight Service"
-      }
-    }
   end
 end

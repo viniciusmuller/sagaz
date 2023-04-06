@@ -19,7 +19,9 @@ defmodule FlightServiceWeb.PlaneJSON do
     %{
       id: plane.id,
       name: plane.name,
-      capacity: plane.capacity
+      capacity: plane.capacity,
+      inserted_at: plane.inserted_at,
+      updated_at: plane.updated_at
     }
   end
 end

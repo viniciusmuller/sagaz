@@ -1,9 +1,11 @@
 defmodule FlightServiceWeb.FlightController do
   use FlightServiceWeb, :controller
-  use PhoenixSwagger
+  use OpenApiSpex.ControllerSpecs
+  alias OpenApiSpex.Schema
 
   alias FlightService.Flights
   alias FlightService.Flights.{Flight, Plane}
+  alias FlightServiceWeb.ApiSchemas
 
   action_fallback FlightServiceWeb.FallbackController
 
@@ -43,95 +45,57 @@ defmodule FlightServiceWeb.FlightController do
     end
   end
 
-  def swagger_definitions do
-    %{
-      Flight:
-        swagger_schema do
-          title("Flight")
-          description("Represents a booked flight")
+  tags(["Flights"])
 
-          properties do
-            depart_time(:utc_datetime, "Flight depart time", required: true)
-            arrival_time(:utc_datetime, "Flight expected arrival time", required: true)
-            from(:string, "Source airport IATA code", required: true)
-            to(:string, "Destination airport IATA code", required: true)
-            plane_id(:string, "Flight plane's id", required: true)
-          end
+  operation(:index,
+    summary: "List flights",
+    responses: [
+      ok: {"Flight", "application/json", %Schema{type: :array, items: ApiSchemas.FlightResponse}}
+    ]
+  )
 
-          example(%{
-            depart_time: "2023-04-05T21:00:00Z",
-            arrival_time: "2023-04-05T23:00:00Z",
-            from: "POA",
-            to: "GRU",
-            plane_id: "41c2fd5e-d77a-4bba-bdd6-1ab88f308a0e"
-          })
-        end,
-      FlightRequest:
-        swagger_schema do
-          title("FlightRequest")
-          description("POST body for creating a flight")
-          property(:plane, Schema.ref(:Flight), "The flight details")
-        end,
-      FlightResponse:
-        swagger_schema do
-          title("FlightResponse")
-          description("Response schema for single flight")
-          property(:data, Schema.ref(:Flight), "The flight details")
-        end,
-      FlightsResponse:
-        swagger_schema do
-          title("FlightsResponse")
-          description("Response schema for multiple flights")
-          property(:data, Schema.array(:Flight), "The flights details")
-        end
-    }
-  end
+  operation(:create,
+    summary: "Book flight",
+    request_body:
+      {"The flight attributes", "application/json", ApiSchemas.FlightRequest, required: true},
+    responses: [
+      created: {"Flight", "application/json", ApiSchemas.FlightResponse}
+    ]
+  )
 
-  swagger_path(:index) do
-    summary("List flights")
-    description("Lists existing flights")
+  operation(:show,
+    summary: "Show flight",
+    parameters: [
+      id: [
+        in: :path,
+        type: :string,
+        description: "Flight ID",
+        required: true
+      ]
+    ],
+    responses: [
+      ok: {"User", "application/json", ApiSchemas.FlightResponse}
+    ]
+  )
 
-    response(200, "OK", Schema.ref(:FlightsResponse))
-  end
+  operation(:update,
+    summary: "Update a flight",
+    parameters: [
+      id: [in: :path, description: "Flight ID", type: :string]
+    ],
+    request_body: {"Flight params", "application/json", ApiSchemas.FlightRequest, required: true},
+    responses: [
+      ok: {"Flight response", "application/json", ApiSchemas.FlightResponse}
+    ]
+  )
 
-  swagger_path(:create) do
-    summary("Book flight")
-    description("Books a flight")
-
-    parameter(:plane, :body, Schema.ref(:FlightRequest), "The flight details")
-    response(201, "Created", Schema.ref(:FlightResponse))
-  end
-
-  swagger_path(:show) do
-    summary("Show flight")
-    description("Show a flight by ID")
-
-    parameter(:id, :path, :string, "Flight ID",
-      required: true,
-      example: "f3cd3f9b-9019-471b-b2e9-02c475fe2bbd"
-    )
-
-    response(200, "OK", Schema.ref(:FlightResponse))
-  end
-
-  swagger_path(:update) do
-    summary("Update flight")
-    description("Update all attributes of a flight")
-
-    parameter(:id, :path, :string, "Flight ID",
-      required: true,
-      example: "f3cd3f9b-9019-471b-b2e9-02c475fe2bbd"
-    )
-
-    parameter(:plane, :body, Schema.ref(:FlightRequest), "The flight details")
-    response(200, "Updated", Schema.ref(:FlightResponse))
-  end
-
-  swagger_path(:delete) do
-    summary("Unbook Flight")
-    description("Unbook a flight by ID")
-
-    parameter(:id, :path, :string, "Flight ID", required: true)
-    response(204, "No Content - Unbooked Successfully")
-  end
+  operation(:delete,
+    summary: "Unbook a flight",
+    parameters: [
+      id: [in: :path, description: "Flight ID", type: :string]
+    ],
+    responses: [
+      no_content: "Succesfully deleted"
+    ]
+  )
 end

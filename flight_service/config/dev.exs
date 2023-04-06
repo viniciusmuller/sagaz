@@ -1,5 +1,7 @@
 import Config
 
+config :open_api_spex, :cache_adapter, OpenApiSpex.Plug.NoneCache
+
 # Configure your database
 config :flight_service, FlightService.Repo,
   username: "postgres",

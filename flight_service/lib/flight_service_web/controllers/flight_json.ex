@@ -23,6 +23,8 @@ defmodule FlightServiceWeb.FlightJSON do
       depart_time: flight.depart_time,
       arrival_time: flight.arrival_time,
       plane_id: flight.plane_id,
+      inserted_at: flight.inserted_at,
+      updated_at: flight.updated_at
     }
   end
 end

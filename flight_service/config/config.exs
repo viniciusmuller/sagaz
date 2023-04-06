@@ -7,15 +7,6 @@
 # General application configuration
 import Config
 
-config :flight_service, :phoenix_swagger,
-  swagger_files: %{
-    "priv/static/swagger.json" => [
-      router: FlightServiceWeb.Router,     # phoenix routes will be converted to swagger paths
-    ]
-  }
-
-config :phoenix_swagger, json_library: Jason
-
 config :flight_service,
   ecto_repos: [FlightService.Repo],
   generators: [binary_id: true]
