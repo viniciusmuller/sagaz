@@ -46,7 +46,7 @@ defmodule BookingServiceWeb.BookingController do
   def delete(conn, %{"id" => id}) do
     booking = Bookings.get_booking!(id)
 
-    with {:ok, %Booking{}} <- Bookings.delete_booking(booking) do
+    with {:ok, %Booking{}} <- Bookings.unbook_booking(booking) do
       send_resp(conn, :no_content, "")
     end
   end

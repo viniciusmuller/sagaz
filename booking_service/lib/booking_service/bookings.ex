@@ -8,6 +8,8 @@ defmodule BookingService.Bookings do
 
   alias BookingService.Bookings.Booking
 
+  alias BookingService.APIs.{FlightsService, HotelsService}
+
   @doc """
   Returns the list of bookings.
 
@@ -87,6 +89,17 @@ defmodule BookingService.Bookings do
   """
   def delete_booking(%Booking{} = booking) do
     Repo.delete(booking)
+  end
+
+  def unbook_booking(%Booking{} = booking) do
+    with {:ok, reservation} <- HotelsService.get_reservation(booking.reservation_id),
+         {:ok, flight} <- FlightsService.get_flight(booking.flight_id),
+         :ok <- HotelsService.cancel_reservation(reservation.id),
+         :ok <- FlightsService.unbook_flight(flight.id) do
+      delete_booking(booking)
+    else
+      :error -> {:error, "Failed to cancel booking. Please try again later."}
+    end
   end
 
   @doc """
