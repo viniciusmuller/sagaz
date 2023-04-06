@@ -1,0 +1,85 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: booking-db-config
+  labels:
+    app: booking-db
+data:
+  POSTGRES_DB: booking_service
+  POSTGRES_USER: postgres
+  POSTGRES_PASSWORD: postgres
+---
+apiVersion: v1
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+  name: booking-db-pv-volume
+  labels:
+    type: local
+    app: booking-db
+spec:
+  storageClassName: manual
+  capacity:
+    storage: 5Gi
+  accessModes:
+    - ReadWriteMany
+  hostPath:
+    path: "/mnt/data"
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: booking-db-pv-claim
+  labels:
+    app: booking-db
+spec:
+  storageClassName: manual
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 5Gi
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: booking-db-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: booking-db
+  template:
+    metadata:
+      labels:
+        app: booking-db
+    spec:
+      containers:
+        - name: postgres
+          image: postgres:14
+          imagePullPolicy: "IfNotPresent"
+          ports:
+            - containerPort: 5432
+          envFrom:
+            - configMapRef:
+                name: booking-db-config
+          volumeMounts:
+            - mountPath: /var/lib/postgresql/data
+              name: booking-db
+      volumes:
+        - name: booking-db
+          persistentVolumeClaim:
+            claimName: booking-db-pv-claim
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: booking-db-service
+  labels:
+    app: booking-db
+spec:
+  type: NodePort
+  ports:
+    - port: 5432
+  selector:
+    app: booking-db
