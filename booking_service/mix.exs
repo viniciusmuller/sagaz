@@ -42,7 +42,8 @@ defmodule BookingService.MixProject do
       {:jason, "~> 1.2"},
       {:plug_cowboy, "~> 2.5"},
       {:httpoison, "~> 2.0"},
-      {:sage, "~> 0.6.2"}
+      {:sage, "~> 0.6.2"},
+      {:open_api_spex, "~> 3.16"}
     ]
   end
 

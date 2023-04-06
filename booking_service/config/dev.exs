@@ -1,5 +1,7 @@
 import Config
 
+config :open_api_spex, :cache_adapter, OpenApiSpex.Plug.NoneCache
+
 # Configure your database
 config :booking_service, BookingService.Repo,
   username: "postgres",

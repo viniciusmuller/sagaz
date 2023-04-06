@@ -1,8 +1,11 @@
 defmodule BookingServiceWeb.BookingController do
   use BookingServiceWeb, :controller
+  use OpenApiSpex.ControllerSpecs
+  alias OpenApiSpex.Schema
 
   alias BookingService.Bookings
   alias BookingService.Bookings.{Booking, BookTravelSchema}
+  alias BookingServiceWeb.ApiSchemas
 
   action_fallback BookingServiceWeb.FallbackController
 
@@ -47,4 +50,56 @@ defmodule BookingServiceWeb.BookingController do
       send_resp(conn, :no_content, "")
     end
   end
+
+  operation(:index,
+    summary: "List bookings",
+    responses: [
+      ok: {"Blane", "application/json", %Schema{type: :array, items: ApiSchemas.BookingResponse}}
+    ]
+  )
+
+  operation(:create,
+    summary: "Book travel",
+    request_body:
+      {"Necessary booking data", "application/json", ApiSchemas.CreateBooking, required: true},
+    responses: [
+      created: {"Booking", "application/json", ApiSchemas.BookingResponse}
+    ]
+  )
+
+  operation(:show,
+    summary: "Show booking",
+    parameters: [
+      id: [
+        in: :path,
+        type: :string,
+        description: "Booking ID",
+        required: true
+      ]
+    ],
+    responses: [
+      ok: {"Booking", "application/json", ApiSchemas.BookingResponse}
+    ]
+  )
+
+  operation(:update,
+    summary: "Update a booking",
+    parameters: [
+      id: [in: :path, description: "Booking ID", type: :string]
+    ],
+    request_body: {"Booking params", "application/json", ApiSchemas.UpdateBooking, required: true},
+    responses: [
+      ok: {"Booking response", "application/json", ApiSchemas.BookingResponse}
+    ]
+  )
+
+  operation(:delete,
+    summary: "Unbooks a travel",
+    parameters: [
+      id: [in: :path, description: "Booking ID", type: :string]
+    ],
+    responses: [
+      no_content: "Succesfully unbooked"
+    ]
+  )
 end

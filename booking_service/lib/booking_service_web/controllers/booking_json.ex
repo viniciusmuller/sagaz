@@ -19,7 +19,9 @@ defmodule BookingServiceWeb.BookingJSON do
     %{
       id: booking.id,
       flight_id: booking.flight_id,
-      reservation_id: booking.reservation_id
+      reservation_id: booking.reservation_id,
+      inserted_at: booking.inserted_at,
+      updated_at: booking.updated_at,
     }
   end
 end

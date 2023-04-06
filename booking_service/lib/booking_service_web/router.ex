@@ -3,12 +3,20 @@ defmodule BookingServiceWeb.Router do
 
   pipeline :api do
     plug :accepts, ["json"]
+    plug OpenApiSpex.Plug.PutApiSpec, module: BookingServiceWeb.ApiSpec
   end
 
   scope "/api", BookingServiceWeb do
     pipe_through :api
 
     resources "/bookings", BookingController, except: [:new, :edit]
+  end
+
+  scope "/api" do
+    pipe_through :api
+
+    get "/openapi", OpenApiSpex.Plug.RenderSpec, []
+    get "/swagger", OpenApiSpex.Plug.SwaggerUI, path: "/api/openapi"
   end
 
   # Enable LiveDashboard in development

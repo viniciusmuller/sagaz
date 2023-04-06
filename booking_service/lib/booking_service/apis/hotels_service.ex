@@ -34,7 +34,7 @@ defmodule BookingService.APIs.HotelsService do
   end
 
   def process_request_url(url) do
-    host = System.fetch_env!("FLIGHT_SERVICE_HOST")
+    host = System.get_env("FLIGHT_SERVICE_HOST", "localhost:4001")
     "#{host}/api#{url}"
   end
 
