@@ -9,6 +9,16 @@ via the **Hotel Service**. If the flights were already booked but the hotel
 reservation fails for some reason, they will be unbooked by the SAGA
 Orchestrator (Booking Service).
 
+## Table of Contents
+
+- [Sagaz](#sagaz)
+- [Architecture Diagram](#architecture-diagram)
+- [Running it locally](#running-it-locally)
+	+ [Starting the Services](#starting-the-services)
+	+ [Testing the Services](#testing-the-services)
+- [Deploying to Kubernetes](#deploying-to-kubernetes)
+- [Developing](#developing)
+
 ## Architecture Diagram
 
 ![Sagaz Architecture Diagram](./.github/img/sagaz-architecture.png)
@@ -35,6 +45,10 @@ The following ports are exposed by docker-compose:
 
 ![Hotel Service Swagger UI Page](./.github/img/hotel-service-swagger-ui.png)
 
+## Deploying to Kubernetes
+
+> In progress
+
 ## Developing
 
 Currently the required development dependencies (Elixir, etc...) are installed
@@ -52,3 +66,4 @@ your services independently.
 - [x] Add Swagger to APIs
 - [x] Implement SAGA for unbooking travel
 - [ ] Improve hotel/plane not found error messages
+- [ ] Add Kubernetes deploy scripts
