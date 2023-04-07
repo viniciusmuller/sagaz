@@ -17,7 +17,6 @@ spec:
           image: booking-service:local
           ports:
             - containerPort: 4000
-          args: ["foreground"]
           env:
             - name: SECRET_KEY_BASE
               value: "AbVEubXFXNTmxhk1vEglciRfUG6L5VwBRaszMP1Gt1PpdfzJ4CsPCioG2ZGOe7fU"
